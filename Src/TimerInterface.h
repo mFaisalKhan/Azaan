@@ -8,7 +8,7 @@ struct TimeFields
     int Sec;
     int MSec;
 
-    bool IsEqual(int h, int m, int s, int mSec)
+    bool IsTimeEqual(int h, int m, int s, int mSec)
     {
         if( Hour == h &&
             Min == m &&
@@ -20,6 +20,7 @@ struct TimeFields
 
         return false;
     }
+
 };
 
 class TimerInterface
@@ -29,6 +30,7 @@ public:
     virtual ~TimerInterface(){};
 
     virtual void GetCurrentTime(int &hour, int &minute, int &sec, int &mSec) = 0;
+    virtual void GetCurrentDate(int& year, int& month, int& day) = 0;
 
 };
 

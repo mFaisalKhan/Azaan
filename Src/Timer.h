@@ -10,6 +10,7 @@ class Timer: public TimerInterface
     virtual ~Timer();
 
     void GetCurrentTime(int &, int&, int&, int&);
+    void GetCurrentDate(int& year, int& month, int& day);
 
 };
 

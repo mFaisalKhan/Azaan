@@ -1,4 +1,6 @@
 #include <iostream>
+#include <Runner.h>
+#include <Timer.h>
 
 using namespace std;
 
@@ -19,7 +21,13 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    cout << "Staring Azaan main()" << endl;
+
+
+    Timer timer;
+    Runner runner(timer);
+
+    runner.Run();
     return 0;
 }
 

@@ -1,5 +1,5 @@
 #include "TimeChecker.h"
-
+#include <iostream>
 
 ///////////////////////////////////////////////////////////
 TimeChecker::TimeChecker(TimerInterface &timer)
@@ -16,6 +16,15 @@ TimeChecker::~TimeChecker()
 }
 
 ///////////////////////////////////////////////////////////
+/// \brief TimeChecker::IsTimeToPlay
+/// \return
+/// When to play
+/// Hour should be same
+/// minute should be equal or within +5
+/// no more than 5 minutes delayed
+/// seconds dont care
+/// mSec dont care
+///
 bool TimeChecker::IsTimeToPlay()
 {
 
@@ -27,8 +36,11 @@ bool TimeChecker::IsTimeToPlay()
         int mSec = 0;
 
         ThisTime.GetCurrentTime(hour, min, sec, mSec);
+        std::cout << "Time: "<< hour <<":"<<min<<":"<<sec ;
+         std::cout << "\tMatching With: "<< TimeList[i].Hour <<":"<< TimeList[i].Min<<":"<< TimeList[i].Sec << std::endl;
 
-        if(TimeList[i].IsEqual(hour,min,sec,mSec))
+        if(hour == TimeList[i].Hour &&
+           (min >= TimeList[i].Min && min <= TimeList[i].Min+5))
         {
             return true;
         }

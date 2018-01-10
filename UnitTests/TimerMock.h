@@ -9,6 +9,7 @@ class TimerMock: public TimerInterface
 {
 public:
     MOCK_METHOD4(GetCurrentTime, void(int&, int&, int&, int&));
+    MOCK_METHOD3(GetCurrentDate, void(int&, int&, int&));
 };
 
 #endif
