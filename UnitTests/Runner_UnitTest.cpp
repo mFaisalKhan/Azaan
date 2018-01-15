@@ -14,3 +14,9 @@ TEST(WhenRunnerConstructorIsCalled, ThenObjectIsCreated)
 }
 
 
+///////////////////////////////////////////////////////////
+TEST(WhenRunIsCalledAndItsTimeToPlay, ThenSendASignalOnDBus)
+{
+
+}
+

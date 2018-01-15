@@ -1,5 +1,5 @@
 project(Azaan)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 
 #add all files in this folder
 aux_source_directory(. SRC_LIST)
@@ -15,5 +15,5 @@ INCLUDE_DIRECTORIES(./Src)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 #libraries to link with
-target_link_libraries(Azaan AzaanLib)
+target_link_libraries(${PROJECT_NAME} AzaanLib)
 
