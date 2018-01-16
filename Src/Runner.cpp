@@ -7,31 +7,20 @@ Runner::Runner(TimerInterface &timer)
     : Checker(timer)
 {
 
-    TimeFields time;
+    QTime time(6,0,0);
 
-    time.Hour = 6;
-    time.Min = 0;
-    time.Sec = 0;
     Checker.AddTime(time);
 
-    time.Hour = 1+12;
-    time.Min = 0;
-    time.Sec = 0;
+    time.setHMS(1+12,0,0);
     Checker.AddTime(time);
 
-    time.Hour = 3+12;
-    time.Min = 0;
-    time.Sec = 0;
+    time.setHMS(3+12,0,0);
     Checker.AddTime(time);
 
-    time.Hour = 6+12;
-    time.Min = 0;
-    time.Sec = 0;
+    time.setHMS(6+12,0,0);
     Checker.AddTime(time);
 
-    time.Hour = 9+12;
-    time.Min = 03;
-    time.Sec = 0;
+    time.setHMS(9+12,3,0);
     Checker.AddTime(time);
 
 }

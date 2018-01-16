@@ -11,11 +11,11 @@ public:
     ~TimeChecker();
 
     bool IsTimeToPlay();
-    void AddTime(TimeFields &newTime);
+    void AddTime(QTime &newTime);
 
 private:
     TimerInterface& ThisTime;
-    std::vector<TimeFields> TimeList;
+    std::vector<QTime> TimeList;
 };
 
 #endif // TIMECHECKER_H

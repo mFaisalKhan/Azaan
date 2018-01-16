@@ -1,26 +1,16 @@
 #ifndef TIMER_INTERFACE_H
 #define TIMER_INTERFACE_H
 
-struct TimeFields
+//#include <QTime>
+#include "/usr/include/x86_64-linux-gnu/qt5/QtCore/QTime"
+
+struct Prayers
 {
-    int Hour;
-    int Min;
-    int Sec;
-    int MSec;
-
-    bool IsTimeEqual(int h, int m, int s, int mSec)
-    {
-        if( Hour == h &&
-            Min == m &&
-            Sec == s &&
-            MSec == mSec)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
+   QTime Fajr;
+   QTime Zuhur;
+   QTime Asar;
+   QTime Maghrib;
+   QTime Isha;
 };
 
 class TimerInterface

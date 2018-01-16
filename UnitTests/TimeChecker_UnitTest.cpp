@@ -1,4 +1,5 @@
 #include <TimeChecker.h>
+#include <QTime>
 #include "TimerMock.h"
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -26,12 +27,9 @@ TEST(WhenTimeExtactlyMatches, ThenIsTimeToPlayReturnsTrue)
     testing::NiceMock<TimerMock> mockTimer;
     TimeChecker timeChecker(mockTimer);
 
-    TimeFields ExpectedTime;
+    QTime ExpectedTime;
 
-    ExpectedTime.Hour = 12;
-    ExpectedTime.Min = 15;
-    ExpectedTime.Sec = 0;
-    ExpectedTime.MSec = 0;
+    ExpectedTime.setHMS(12,15,0,0);
 
     timeChecker.AddTime(ExpectedTime);
     EXPECT_CALL(mockTimer, GetCurrentTime(_,_,_,_))

@@ -37,10 +37,10 @@ bool TimeChecker::IsTimeToPlay()
 
         ThisTime.GetCurrentTime(hour, min, sec, mSec);
         std::cout << "Time: "<< hour <<":"<<min<<":"<<sec ;
-         std::cout << "\tMatching With: "<< TimeList[i].Hour <<":"<< TimeList[i].Min<<":"<< TimeList[i].Sec << std::endl;
+         std::cout << "\tMatching With: "<< TimeList[i].minute() <<":"<< TimeList[i].minute()<<":"<< TimeList[i].second() << std::endl;
 
-        if(hour == TimeList[i].Hour &&
-           (min >= TimeList[i].Min && min <= TimeList[i].Min+5))
+        if(hour == TimeList[i].hour() &&
+           (min >= TimeList[i].minute() && min <= TimeList[i].minute() +5))
         {
             return true;
         }
@@ -50,7 +50,7 @@ bool TimeChecker::IsTimeToPlay()
 }
 
 ///////////////////////////////////////////////////////////
-void TimeChecker::AddTime(TimeFields &newTime)
+void TimeChecker::AddTime(QTime &newTime)
 {
     TimeList.push_back(newTime);
 }
