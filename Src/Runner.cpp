@@ -1,27 +1,42 @@
 #include "Runner.h"
+#include "TimeLoader.h"
 #include <iostream>
 #include <unistd.h>
+#include <QDebug>
 
 ///////////////////////////////////////////////////////////
 Runner::Runner(TimerInterface &timer)
     : Checker(timer)
 {
 
-    QTime time(6,0,0);
+    qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << " Runner started";
 
-    Checker.AddTime(time);
+    TimeLoader loader;
 
-    time.setHMS(1+12,0,0);
-    Checker.AddTime(time);
+    if(loader.LoadTimes())
+    {
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy")  << "Times Loaded";
 
-    time.setHMS(3+12,0,0);
-    Checker.AddTime(time);
+        QMap<QString, QTime> times = loader.GetLoadedTime();
 
-    time.setHMS(6+12,0,0);
-    Checker.AddTime(time);
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Date   : " <<  QDateTime::currentDateTime().toString("MM/dd/yyyy");
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Fajar  : " <<  times["Fajar"].toString("hh:mm:ss");
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Zuhur  : " <<  times["Zuhur"].toString("hh:mm:ss");
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Asar   : " <<  times["Asar"].toString("hh:mm:ss");
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Maghrib: " <<  times["Maghrib"].toString("hh:mm:ss");
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Isha   : " <<  times["Isha"].toString("hh:mm:ss");
 
-    time.setHMS(9+12,3,0);
-    Checker.AddTime(time);
+        Checker.AddTime(times["Fajar"]);
+        Checker.AddTime(times["Zuhur"]);
+        Checker.AddTime(times["Asar"]);
+        Checker.AddTime(times["Maghrib"]);
+        Checker.AddTime(times["Isha"]);
+
+    }
+    else
+    {
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "LoadTime failed";
+    }
 
 }
 
@@ -38,7 +53,7 @@ void Runner::Run()
     {
         if(Checker.IsTimeToPlay())
         {
-            std::cout << "Time to play!" << std::endl;
+            qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Time to play";
         }
         sleep(10);
     }

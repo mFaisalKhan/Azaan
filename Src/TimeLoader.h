@@ -3,8 +3,9 @@
 
 #include <QtCore/QList>
 #include <qt5/QtSql/QSqlDatabase>
-#include <QTime>
+#include <QtCore/QTime>
 #include <QtCore/QMap>
+#include <QVariant>
 #include "TimerInterface.h"
 
 /*
@@ -21,8 +22,10 @@ class TimeLoader
 private:
     bool OpenDatabase();
     bool ExecuteQuery(const QString & queryString);
+    bool ReadRecord(const QDate dateTime);
 
     QMap<QString, QTime> PrayerTimes;
+    QMap<QString, QVariant> Result;
     QSqlDatabase Db;
     QString DBPath;
 };

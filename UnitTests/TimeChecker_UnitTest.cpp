@@ -44,12 +44,7 @@ TEST(WhenTimeIsWithinOver5minutes, ThenIsTimeToPlayReturnsTrue)
     testing::NiceMock<TimerMock> mockTimer;
     TimeChecker timeChecker(mockTimer);
 
-    TimeFields ExpectedTime;
-
-    ExpectedTime.Hour = 12;
-    ExpectedTime.Min = 15;
-    ExpectedTime.Sec = 0;
-    ExpectedTime.MSec = 0;
+    QTime ExpectedTime(12,15,0);
 
     timeChecker.AddTime(ExpectedTime);
     EXPECT_CALL(mockTimer, GetCurrentTime(_,_,_,_))
@@ -64,12 +59,7 @@ TEST(WhenHourIsSameButMinuteIsLess, ThenIsTimeToPlayReturnsFalse)
     testing::NiceMock<TimerMock> mockTimer;
     TimeChecker timeChecker(mockTimer);
 
-    TimeFields ExpectedTime;
-
-    ExpectedTime.Hour = 12;
-    ExpectedTime.Min = 15;
-    ExpectedTime.Sec = 0;
-    ExpectedTime.MSec = 0;
+    QTime ExpectedTime(12,15,0);
 
     timeChecker.AddTime(ExpectedTime);
     EXPECT_CALL(mockTimer, GetCurrentTime(_,_,_,_))
@@ -84,12 +74,7 @@ TEST(WhenHourIsSameButMinuteIsMoreThen5, ThenIsTimeToPlayReturnsFalse)
     testing::NiceMock<TimerMock> mockTimer;
     TimeChecker timeChecker(mockTimer);
 
-    TimeFields ExpectedTime;
-
-    ExpectedTime.Hour = 12;
-    ExpectedTime.Min = 15;
-    ExpectedTime.Sec = 0;
-    ExpectedTime.MSec = 0;
+    QTime ExpectedTime(12,15,0);
 
     timeChecker.AddTime(ExpectedTime);
     EXPECT_CALL(mockTimer, GetCurrentTime(_,_,_,_))
@@ -104,12 +89,7 @@ TEST(WhenHourIsNotSameButMinuteIsSame, ThenIsTimeToPlayReturnsFalse)
     testing::NiceMock<TimerMock> mockTimer;
     TimeChecker timeChecker(mockTimer);
 
-    TimeFields ExpectedTime;
-
-    ExpectedTime.Hour = 12;
-    ExpectedTime.Min = 15;
-    ExpectedTime.Sec = 0;
-    ExpectedTime.MSec = 0;
+    QTime ExpectedTime(12,15,0);
 
     timeChecker.AddTime(ExpectedTime);
     EXPECT_CALL(mockTimer, GetCurrentTime(_,_,_,_))

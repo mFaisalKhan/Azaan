@@ -1,8 +1,8 @@
 #ifndef TIMER_INTERFACE_H
 #define TIMER_INTERFACE_H
 
-//#include <QTime>
-#include "/usr/include/x86_64-linux-gnu/qt5/QtCore/QTime"
+#include <QTime>
+//#include "/usr/include/x86_64-linux-gnu/qt5/QtCore/QTime"
 
 struct Prayers
 {

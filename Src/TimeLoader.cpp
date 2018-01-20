@@ -2,12 +2,14 @@
 #include <QtCore/QDebug>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
+#include <QtSql/QSqlError>
 
 const QString DB_PATH = "./master.db";
 
 ///////////////////////////////////////////////////////
 TimeLoader::TimeLoader()
     : PrayerTimes()
+    , Result()
     , Db()
     , DBPath(DB_PATH)
 
@@ -24,6 +26,13 @@ TimeLoader::~TimeLoader()
 ///////////////////////////////////////////////////////
 QMap<QString, QTime> & TimeLoader::GetLoadedTime()
 {
+    QMap<QString, QVariant>::iterator it = Result.begin();
+
+    for(; it != Result.end(); it++)
+    {
+        PrayerTimes.insert(it.key(), (*it).value<QTime>());
+    }
+
     return PrayerTimes;
 }
 
@@ -31,14 +40,15 @@ QMap<QString, QTime> & TimeLoader::GetLoadedTime()
 bool TimeLoader::LoadTimes()
 {
     bool retVal = false;
-    if( OpenDatabase() )
+    if( !OpenDatabase() )
     {
-        qDebug() << "Error: connection with database fail";
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Error: connection with database fail";
     }
     else
     {
-        qDebug() << "Database: connection ok";
-        retVal = true;
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Database: connection ok";
+
+        retVal = ReadRecord(QDate::currentDate());
     }
 
     return retVal;
@@ -47,34 +57,55 @@ bool TimeLoader::LoadTimes()
 ///////////////////////////////////////////////////////
 bool TimeLoader::OpenDatabase()
 {
-    Db = QSqlDatabase::addDatabase("QSQLITE");
+    Db = QSqlDatabase::addDatabase("QSQLITE", "Master_DB");
     Db.setDatabaseName(DBPath);
 
-    return (Db.open());
+    bool ret = Db.open();
+
+    if(!Db.isOpen())
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Connot open database " << DBPath << "Err:" << Db.lastError();
+
+    return (ret) ;
 }
 
 ///////////////////////////////////////////////////////
 bool TimeLoader::ExecuteQuery(const QString & queryString)
 {
-    QSqlQuery query(queryString);
-    QSqlRecord record =  query.record();
+    bool ret = false;
 
-    int id_date = record.indexOf("Date");
-    int id_Fajr = record.indexOf("Fajr");
-    int id_Zuhur = record.indexOf("Zuhur");
-    int id_Asar = record.indexOf("Asar");
-    int id_Maghrib = record.indexOf("Maghrib");
-    int id_Isha = record.indexOf("Isha");
+    QSqlQuery query(Db);
 
-    if(query.exec())
+    if(query.exec(queryString))
     {
-        while(query.next())
+       qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Query successful. query size:" << query.size();
+
+       while(query.next())
         {
-            PrayerTimes.insert("Fajr", query.value(id_Fajr).toTime());
-            PrayerTimes.insert("Zuhur", query.value(id_Zuhur).toTime());
-            PrayerTimes.insert("Asar", query.value(id_Asar).toTime());
-            PrayerTimes.insert("Maghrib", query.value(id_Maghrib).toTime());
-            PrayerTimes.insert("Isha", query.value(id_Isha).toTime());
+          QSqlRecord record =  query.record();
+
+          for(int i=0 ; i<record.count(); i++)
+            {
+                QVariant val = query.value(i);
+                QString key = record.fieldName(i);
+                Result.insert(key, val);
+                ret = true;
+            }
         }
+
     }
+    else
+    {
+        qDebug() << QDateTime::currentDateTime().toString("hh:mm:ss.ms MM/dd/yyyy") << "Query execution failed.";
+    }
+
+    return (ret);
 }
+
+///////////////////////////////////////////////////////
+bool TimeLoader::ReadRecord(const QDate dateTime)
+{
+    QString str = QString("SELECT * From PrayerTimes Where Day='%1'").arg(dateTime.toString("MM/dd/yyyy"));
+
+    return ExecuteQuery(str);
+}
+
